@@ -39,13 +39,13 @@ $("#builder").queryBuilder({
   ],
   default_filter: 'name',
   operators: ['equal'],
-  // icons: {
-  //   add_group: "bi bi-plus-square",
-  //   add_rule: "bi bi-plus-circle",
-  //   remove_group: "bi bi-dash-square",
-  //   remove_rule: "bi bi-dash-circle",
-  //   error: "bi bi-exclamation-triangle",
-  // },
+  icons: {
+    add_group: "bi bi-plus-square",
+    add_rule: "bi bi-plus-circle",
+    remove_group: "bi bi-dash-square",
+    remove_rule: "bi bi-dash-circle",
+    error: "bi bi-exclamation-triangle",
+  },
   templates: {
     group: `
 <div id="{{= it.group_id }}" class="rules-group-container">
@@ -95,7 +95,60 @@ $("#builder").queryBuilder({
   <div class="rule-filter-container"></div>
   <div class="rule-operator-container"></div>
   <div class="rule-value-container"></div>
-</div>`
+</div>`,
+  filterSelect: `
+{{ var optgroup = null; }}
+<select class="form-control" name="{{= it.rule.id }}_filter">
+  {{? it.settings.display_empty_filter }}
+    <option value="-1">{{= it.settings.select_placeholder }}</option>
+  {{?}}
+  {{~ it.filters: filter }}
+    {{? optgroup !== filter.optgroup }}
+      {{? optgroup !== null }}</optgroup>{{?}}
+      {{? (optgroup = filter.optgroup) !== null }}
+        <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
+      {{?}}
+    {{?}}
+    <option value="{{= filter.id }}" {{? filter.icon}}data-icon="{{= filter.icon}}"{{?}}>{{= it.translate(filter.label) }}</option>
+  {{~}}
+  {{? optgroup !== null }}</optgroup>{{?}}
+</select>`,
+  operatorSelect: `
+{{? it.operators.length === 1 }}
+<span>
+{{= it.translate("operators", it.operators[0].type) }}
+</span>
+{{?}}
+{{ var optgroup = null; }}
+<select class="form-control {{? it.operators.length === 1 }}hide{{?}}" name="{{= it.rule.id }}_operator">
+  {{~ it.operators: operator }}
+    {{? optgroup !== operator.optgroup }}
+      {{? optgroup !== null }}</optgroup>{{?}}
+      {{? (optgroup = operator.optgroup) !== null }}
+        <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
+      {{?}}
+    {{?}}
+    <option value="{{= operator.type }}" {{? operator.icon}}data-icon="{{= operator.icon}}"{{?}}>{{= it.translate("operators", operator.type) }}</option>
+  {{~}}
+  {{? optgroup !== null }}</optgroup>{{?}}
+</select>`,
+  ruleValueSelect: `
+{{ var optgroup = null; }}
+<select class="form-control" name="{{= it.name }}" {{? it.rule.filter.multiple }}multiple{{?}}>
+  {{? it.rule.filter.placeholder }}
+    <option value="{{= it.rule.filter.placeholder_value }}" disabled selected>{{= it.rule.filter.placeholder }}</option>
+  {{?}}
+  {{~ it.rule.filter.values: entry }}
+    {{? optgroup !== entry.optgroup }}
+      {{? optgroup !== null }}</optgroup>{{?}}
+      {{? (optgroup = entry.optgroup) !== null }}
+        <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
+      {{?}}
+    {{?}}
+    <option value="{{= entry.value }}">{{= entry.label }}</option>
+  {{~}}
+  {{? optgroup !== null }}</optgroup>{{?}}
+</select>`
   },
   filters: [
     {

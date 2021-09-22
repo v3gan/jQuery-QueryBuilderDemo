@@ -9,27 +9,31 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        SQL Imported
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            SQL Imported
+                        </div>
+                        <div class="card-body">
+                           <pre id="SQLin"></pre>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                       <pre id="SQLin"></span> 
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            JSON Imported
+                        </div>
+                        <div class="card-body">
+                           <pre id="JSONin"></pre>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        JSON Imported
-                    </div>
-                    <div class="panel-body">
-                       <pre id="JSONin"></span> 
-                    </div>
+                <div class="col">
+                    <div id="builder"></div>
                 </div>
-            </div>
-            <div class="row">
-                <div id="builder"></div>
             </div>
             <div class="row">
                 <button id="btn-reset" class="btn btn-warning">Reset</button>
@@ -38,22 +42,24 @@
                 <button id="btn-export" class="btn btn-primary">Export Rules</button>
             </div>
             <div class="row" style="margin-top: 1rem;">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        SQL Exported
-                    </div>
-                    <div class="panel-body">
-                       <pre id="SQLout"></span> 
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            SQL Exported
+                        </div>
+                        <div class="card-body">
+                           <pre id="SQLout"></pre>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        JSON Exported
-                    </div>
-                    <div class="panel-body">
-                       <pre id="JSONout"></span> 
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            JSON Exported
+                        </div>
+                        <div class="card-body">
+                           <pre id="JSONout"></pre>
+                        </div>
                     </div>
                 </div>
             </div>
