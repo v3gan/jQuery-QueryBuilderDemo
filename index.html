@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+        <!-- <link rel="stylesheet" href="/css/no-bs.css"> -->
+        <link href="/node_modules/jQuery-QueryBuilder/dist/css/query-builder.default.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        SQL Imported
+                    </div>
+                    <div class="panel-body">
+                       <pre id="SQLin"></span> 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        JSON Imported
+                    </div>
+                    <div class="panel-body">
+                       <pre id="JSONin"></span> 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="builder"></div>
+            </div>
+            <div class="row">
+                <button id="btn-reset" class="btn btn-warning">Reset</button>
+                <button id="btn-set-sql" class="btn btn-success">Set rules from SQL</button>
+                <button id="btn-set-json" class="btn btn-success">Set rules from JSON</button>
+                <button id="btn-export" class="btn btn-primary">Export Rules</button>
+            </div>
+            <div class="row" style="margin-top: 1rem;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        SQL Exported
+                    </div>
+                    <div class="panel-body">
+                       <pre id="SQLout"></span> 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        JSON Exported
+                    </div>
+                    <div class="panel-body">
+                       <pre id="JSONout"></span> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <script src="/node_modules/jquery/dist/jquery.js"></script>
+        <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="/node_modules/jquery-extendext/jquery-extendext.js"></script>
+        <script src="/node_modules/dot/doT.js"></script>
+        <script src="/node_modules/jQuery-QueryBuilder/dist/js/query-builder.js"></script>
+        <!-- SQLParser from https://www.npmjs.com/package/sql-parser-mistic -->
+        <script src="/node_modules/sql-parser-mistic/browser/sql-parser.js"></script>
+        <script src="/index.js"></script>
+    </body>
+</html>
