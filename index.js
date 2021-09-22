@@ -101,42 +101,8 @@ $("#builder").queryBuilder({
     <div class="rule-value-container"></div>
   </div>
 </div>`,
-  filterSelect: `
-{{ var optgroup = null; }}
-<select class="form-control {{? it.filters.length === 1 }}collapse{{?}}" name="{{= it.rule.id }}_filter">
-  {{? it.settings.display_empty_filter }}
-    <option value="-1">{{= it.settings.select_placeholder }}</option>
-  {{?}}
-  {{~ it.filters: filter }}
-    {{? optgroup !== filter.optgroup }}
-      {{? optgroup !== null }}</optgroup>{{?}}
-      {{? (optgroup = filter.optgroup) !== null }}
-        <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
-      {{?}}
-    {{?}}
-    <option value="{{= filter.id }}" {{? filter.icon}}data-icon="{{= filter.icon}}"{{?}}>{{= it.translate(filter.label) }}</option>
-  {{~}}
-  {{? optgroup !== null }}</optgroup>{{?}}
-</select>`,
-  operatorSelect: `
-{{? it.operators.length === 1 }}
-<!--<span>
-{{= it.translate("operators", it.operators[0].type) }}
-</span>-->
-{{?}}
-{{ var optgroup = null; }}
-<select class="form-control {{? it.operators.length === 1 }}collapse{{?}}" name="{{= it.rule.id }}_operator">
-  {{~ it.operators: operator }}
-    {{? optgroup !== operator.optgroup }}
-      {{? optgroup !== null }}</optgroup>{{?}}
-      {{? (optgroup = operator.optgroup) !== null }}
-        <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
-      {{?}}
-    {{?}}
-    <option value="{{= operator.type }}" {{? operator.icon}}data-icon="{{= operator.icon}}"{{?}}>{{= it.translate("operators", operator.type) }}</option>
-  {{~}}
-  {{? optgroup !== null }}</optgroup>{{?}}
-</select>`,
+  filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
+  operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
   ruleValueSelect: `
 {{ var optgroup = null; }}
 <select class="form-control" name="{{= it.name }}" {{? it.rule.filter.multiple }}multiple{{?}}>
@@ -166,6 +132,7 @@ $("#builder").queryBuilder({
         2: "SURG 123",
         3: "PEDS 123",
         4: "NEUR 234",
+        5: "MED 456"
       },
 
     }
