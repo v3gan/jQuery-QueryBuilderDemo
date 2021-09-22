@@ -103,9 +103,6 @@ $("#builder").queryBuilder({
 </div>`,
   filterSelect: `
 {{ var optgroup = null; }}
-{{? it.filters.length === 1 }}
-    <span>{{= it.filters[0].label }}</span>
-{{?}}
 <select class="form-control {{? it.filters.length === 1 }}collapse{{?}}" name="{{= it.rule.id }}_filter">
   {{? it.settings.display_empty_filter }}
     <option value="-1">{{= it.settings.select_placeholder }}</option>
@@ -123,9 +120,9 @@ $("#builder").queryBuilder({
 </select>`,
   operatorSelect: `
 {{? it.operators.length === 1 }}
-<span>
+<!--<span>
 {{= it.translate("operators", it.operators[0].type) }}
-</span>
+</span>-->
 {{?}}
 {{ var optgroup = null; }}
 <select class="form-control {{? it.operators.length === 1 }}collapse{{?}}" name="{{= it.rule.id }}_operator">
