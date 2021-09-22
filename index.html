@@ -3,12 +3,12 @@
     <head>
         <link href="/node_modules/bootstrap/dist/css/bootstrap.css" type="text/css" rel="stylesheet">
         <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
-        <!-- <link rel="stylesheet" href="/css/no-bs.css"> -->
         <link href="/node_modules/jQuery-QueryBuilder/dist/css/query-builder.default.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/custom.css">
     </head>
     <body>
         <div class="container">
-            <div class="row">
+            <div class="row collapse">
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
@@ -36,10 +36,12 @@
                 </div>
             </div>
             <div class="row">
-                <button id="btn-reset" class="btn btn-warning">Reset</button>
-                <button id="btn-set-sql" class="btn btn-success">Set rules from SQL</button>
-                <button id="btn-set-json" class="btn btn-success">Set rules from JSON</button>
-                <button id="btn-export" class="btn btn-primary">Export Rules</button>
+                <div class="col">
+                    <button id="btn-reset" class="btn btn-warning">Reset</button>
+                    <button id="btn-set-sql" class="btn btn-success">Set rules from SQL</button>
+                    <button id="btn-set-json" class="btn btn-success">Set rules from JSON</button>
+                    <button id="btn-export" class="btn btn-primary">Export Rules</button>
+                </div>
             </div>
             <div class="row" style="margin-top: 1rem;">
                 <div class="col-md-6">

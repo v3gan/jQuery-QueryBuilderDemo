@@ -37,6 +37,7 @@ $("#builder").queryBuilder({
     //"bt-tooltip-errors", 
     //"not-group"
   ],
+  display_empty_filter: false,
   default_filter: 'name',
   operators: ['equal'],
   icons: {
@@ -48,26 +49,26 @@ $("#builder").queryBuilder({
   },
   templates: {
     group: `
-<div id="{{= it.group_id }}" class="rules-group-container">
-  <div class="rules-group-header">
-    <div class="btn-group pull-right group-actions">
-      <button type="button" class="btn btn-xs btn-success" data-add="rule">
+<div id="{{= it.group_id }}" class="rules-group-container w-75">
+  <div class="rules-group-header d-flex justify-content-between">
+    <div class="btn-group order-1 group-actions">
+      <button type="button" class="btn btn-sm btn-success" data-add="rule">
         <i class="{{= it.icons.add_rule }}"></i> {{= it.translate("add_rule") }}
       </button>
       {{? it.settings.allow_groups===-1 || it.settings.allow_groups>=it.level }}
-        <button type="button" class="btn btn-xs btn-success" data-add="group">
+        <button type="button" class="btn btn-sm btn-success" data-add="group">
           <i class="{{= it.icons.add_group }}"></i> {{= it.translate("add_group") }}
         </button>
       {{?}}
       {{? it.level>1 }}
-        <button type="button" class="btn btn-xs btn-danger" data-delete="group">
+        <button type="button" class="btn btn-sm btn-danger" data-delete="group">
           <i class="{{= it.icons.remove_group }}"></i> {{= it.translate("delete_group") }}
         </button>
       {{?}}
     </div>
-    <div class="btn-group group-conditions">
+    <div class="btn-group group-conditions order-0">
       {{~ it.conditions: condition }}
-        <label class="btn btn-xs btn-primary">
+        <label class="btn btn-sm btn-primary">
           <input type="radio" name="{{= it.group_id }}_cond" value="{{= condition }}"> {{= it.translate("conditions", condition) }}
         </label>
       {{~}}
@@ -81,24 +82,31 @@ $("#builder").queryBuilder({
   </div>
 </div>`,
     rule: `
-<div id="{{= it.rule_id }}" class="rule-container"> 
-  <div class="rule-header">
-    <div class="btn-group pull-right rule-actions">
-      <button type="button" class="btn btn-xs btn-danger" data-delete="rule">
-        <i class="{{= it.icons.remove_rule }}"></i> {{= it.translate("delete_rule") }}
-      </button>
+<div id="{{= it.rule_id }}" class="rule-container d-flex justify-content-between"> 
+  <div class="rule-action-container order-1">
+    <div class="rule-header">
+      <div class="btn-group pull-right rule-actions">
+        <button type="button" class="btn btn-sm btn-danger" data-delete="rule">
+          <i class="{{= it.icons.remove_rule }}"></i> {{= it.translate("delete_rule") }}
+        </button>
+      </div>
     </div>
   </div>
-  {{? it.settings.display_errors }}
-    <div class="error-container"><i class="{{= it.icons.error }}"></i></div>
-  {{?}}
-  <div class="rule-filter-container"></div>
-  <div class="rule-operator-container"></div>
-  <div class="rule-value-container"></div>
+  <div class="fov-container order-0">
+    {{? it.settings.display_errors }}
+      <div class="error-container"><i class="{{= it.icons.error }}"></i></div>
+    {{?}}
+    <div class="rule-filter-container"></div>
+    <div class="rule-operator-container"></div>
+    <div class="rule-value-container"></div>
+  </div>
 </div>`,
   filterSelect: `
 {{ var optgroup = null; }}
-<select class="form-control" name="{{= it.rule.id }}_filter">
+{{? it.filters.length === 1 }}
+    <span>{{= it.filters[0].label }}</span>
+{{?}}
+<select class="form-control {{? it.filters.length === 1 }}collapse{{?}}" name="{{= it.rule.id }}_filter">
   {{? it.settings.display_empty_filter }}
     <option value="-1">{{= it.settings.select_placeholder }}</option>
   {{?}}
@@ -120,7 +128,7 @@ $("#builder").queryBuilder({
 </span>
 {{?}}
 {{ var optgroup = null; }}
-<select class="form-control {{? it.operators.length === 1 }}hide{{?}}" name="{{= it.rule.id }}_operator">
+<select class="form-control {{? it.operators.length === 1 }}collapse{{?}}" name="{{= it.rule.id }}_operator">
   {{~ it.operators: operator }}
     {{? optgroup !== operator.optgroup }}
       {{? optgroup !== null }}</optgroup>{{?}}
