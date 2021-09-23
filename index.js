@@ -55,8 +55,6 @@ $(function(){
   $('#JSONin').text(JSON.stringify(rules_basic, null,2));
 })
 
-
-
 $("#builder").queryBuilder({
   plugins: [
     //"bt-tooltip-errors", 
@@ -128,41 +126,32 @@ $("#builder").queryBuilder({
 </div>`,
   filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
   operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
-  ruleValueSelect: `
-{{ var optgroup = null; }}
-<select class="form-control" name="{{= it.name }}" {{? it.rule.filter.multiple }}multiple{{?}}>
-  {{? it.rule.filter.placeholder }}
-    <option value="{{= it.rule.filter.placeholder_value }}" disabled selected>{{= it.rule.filter.placeholder }}</option>
-  {{?}}
-  {{~ it.rule.filter.values: entry }}
-    {{? optgroup !== entry.optgroup }}
-      {{? optgroup !== null }}</optgroup>{{?}}
-      {{? (optgroup = entry.optgroup) !== null }}
-        <optgroup label="{{= it.translate(it.settings.optgroups[optgroup]) }}">
-      {{?}}
-    {{?}}
-    <option value="{{= entry.value }}">{{= entry.label }}</option>
-  {{~}}
-  {{? optgroup !== null }}</optgroup>{{?}}
-</select>`
+  ruleValueSelect: `<input type='text' class='course-select w-100' placeholder="Select a course...">
+<!--<select class="selectize-select" name="{{= it.name }}" placeholder="Select a course...">  
+</select>-->`
   },
   filters: [
     {
       id: "name",
       label: "Course",
       type: "integer",
-      input: "select",
-      values: {
-        1: "MED 123",
-        2: "SURG 123",
-        3: "PEDS 123",
-        4: "NEUR 234",
-        5: "MED 456"
-      },
-
+      input: "select"      
     }
   ],
 });
+
+ let $select = $('.course-select').selectize({
+   maxItems: 1,
+   valueField: 'id',
+   labelField: 'name',
+   searchField: 'name',
+   options: objCourses,
+   //  showEmptyOptionInDropdown: true,
+   //  emptyOptionLabel: 'Select a Course...',
+   openOnFocus: false,
+   //maxOptions: 10
+ });
+
 
 $("#btn-reset").on("click", function () {
   $("#builder").queryBuilder("reset");
