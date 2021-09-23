@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="/node_modules/bootstrap/dist/css/bootstrap.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="node_modules/selectize/dist/css/selectize.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="ddlCourses">Courses</label>
+            <select id="ddlCourses" placeholder="Pick a course..."></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/selectize/dist/js/standalone/selectize.js"></script>
+    <script>
+      const objCourses = [
+        {
+          id: 1,
+          name: "MED 123",
+        },
+        {
+          id: 5,
+          name: "MED 456",
+        },
+        {
+          id: 4,
+          name: "POD 123",
+        },
+        {
+          id: 3,
+          name: "NUR 456",
+        },
+        {
+          id: 2,
+          name: "STN 666",
+        },
+      ];
+      let $select = $("#ddlCourses").selectize({
+        maxItems: 1,
+        valueField: "id",
+        labelField: "name",
+        searchField: "name",
+        options: objCourses,
+        openOnFocus: false,
+        maxOptions: 10,
+      });
+    </script>
+  </body>
+</html>

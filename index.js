@@ -1,7 +1,7 @@
-var sql_import_export =
+let sql_import_export =
   'name LIKE "%Johnny%" AND (category = 2 OR in_stock = 1)';
 
-var rules_basic = {
+let rules_basic = {
   condition: "AND",
   rules: [
     {
@@ -27,10 +27,35 @@ var rules_basic = {
   ],
 };
 
+const objCourses = [
+  {
+    id: 1,
+    name: "MED 123",
+  },
+  {
+    id: 5,
+    name: "MED 456",
+  },
+  {
+    id: 4,
+    name: "POD 123",
+  },
+  {
+    id: 3,
+    name: "NUR 456",
+  },
+  {
+    id: 2,
+    name: "STN 666",
+  },
+];
+
 $(function(){
   $('#SQLin').text(sql_import_export);
   $('#JSONin').text(JSON.stringify(rules_basic, null,2));
 })
+
+
 
 $("#builder").queryBuilder({
   plugins: [
