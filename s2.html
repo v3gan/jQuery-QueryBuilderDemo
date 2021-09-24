@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="/node_modules/bootstrap/dist/css/bootstrap.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="node_modules/select2/dist/css/select2.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="ddlCourses">Courses</label>
+            <select
+              id="ddlCourses"
+              placeholder="Pick a course..."
+              class="w-100 course-select"
+            ></select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="ddlCourses2">Courses</label>
+            <select
+              id="ddlCourses2"
+              placeholder="Pick a course..."
+              class="w-100 course-select"
+            ></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/select2/dist/js/select2.min.js"></script>
+    <script>
+      $(function () {
+        // fix auto-focus not working as of jQuery >= 3.6
+        $(document).on("select2:open", (e) => {
+          const id = e.target.id;
+          const target = $(`[aria-controls=select2-${id}-results]`)[0];
+          console.log(id);
+          target.focus();
+        });
+
+        const objCourses = [
+          {
+            id: 1,
+            text: "MED 123",
+          },
+          {
+            id: 5,
+            text: "MED 456",
+          },
+          {
+            id: 4,
+            text: "POD 123",
+          },
+          {
+            id: 3,
+            text: "NUR 456",
+          },
+          {
+            id: 2,
+            text: "STN 666",
+          },
+        ];
+
+        $(".course-select").select2({ data: objCourses });
+      });
+    </script>
+  </body>
+</html>

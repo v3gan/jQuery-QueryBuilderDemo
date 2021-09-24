@@ -27,51 +27,27 @@ let rules_basic = {
   ],
 };
 
-const objCourses = [
-  {
-    id: 1,
-    name: "MED 123",
-  },
-  {
-    id: 5,
-    name: "MED 456",
-  },
-  {
-    id: 4,
-    name: "POD 123",
-  },
-  {
-    id: 3,
-    name: "NUR 456",
-  },
-  {
-    id: 2,
-    name: "STN 666",
-  },
-];
+$(function () {
 
-$(function(){
-  $('#SQLin').text(sql_import_export);
-  $('#JSONin').text(JSON.stringify(rules_basic, null,2));
-})
-
-$("#builder").queryBuilder({
-  plugins: [
-    //"bt-tooltip-errors", 
-    //"not-group"
-  ],
-  display_empty_filter: false,
-  default_filter: 'name',
-  operators: ['equal'],
-  icons: {
-    add_group: "bi bi-plus-square",
-    add_rule: "bi bi-plus-circle",
-    remove_group: "bi bi-dash-square",
-    remove_rule: "bi bi-dash-circle",
-    error: "bi bi-exclamation-triangle",
-  },
-  templates: {
-    group: `
+  $("#SQLin").text(sql_import_export);
+  $("#JSONin").text(JSON.stringify(rules_basic, null, 2));
+  $("#builder").queryBuilder({
+    plugins: [
+      //"bt-tooltip-errors",
+      //"not-group"
+    ],
+    display_empty_filter: false,
+    default_filter: "name",
+    operators: ["equal"],
+    icons: {
+      add_group: "bi bi-plus-square",
+      add_rule: "bi bi-plus-circle",
+      remove_group: "bi bi-dash-square",
+      remove_rule: "bi bi-dash-circle",
+      error: "bi bi-exclamation-triangle",
+    },
+    templates: {
+      group: `
 <div id="{{= it.group_id }}" class="rules-group-container w-75">
   <div class="rules-group-header d-flex justify-content-between">
     <div class="btn-group order-1 group-actions">
@@ -104,7 +80,7 @@ $("#builder").queryBuilder({
     <div class=rules-list></div>
   </div>
 </div>`,
-    rule: `
+      rule: `
 <div id="{{= it.rule_id }}" class="rule-container d-flex justify-content-between"> 
   <div class="rule-action-container order-1">
     <div class="rule-header">
@@ -124,73 +100,104 @@ $("#builder").queryBuilder({
     <div class="rule-value-container"></div>
   </div>
 </div>`,
-  filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
-  operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
-  ruleValueSelect: `<input type='text' class='course-select w-100' placeholder="Select a course...">
-<!--<select class="selectize-select" name="{{= it.name }}" placeholder="Select a course...">  
-</select>-->`
-  },
-  filters: [
-    {
-      id: "name",
-      label: "Course",
-      type: "integer",
-      input: "select"      
+      filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
+      operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
+      ruleValueSelect: `<select id="{{= it.name }}" class="course-select" name="{{= it.name }}"></select>`,
+    },
+    filters: [
+      {
+        id: "name",
+        label: "Course",
+        type: "integer",
+        input: "select",
+      },
+    ],
+  });
+
+  $("#btn-reset").on("click", function () {
+    $("#builder").queryBuilder("reset");
+  });
+
+  $("#btn-set-sql").on("click", function () {
+    $("#builder").queryBuilder("setRulesFromSQL", sql_import_export);
+  });
+
+  $("#btn-set-json").on("click", function () {
+    $("#builder").queryBuilder("setRules", rules_basic);
+  });
+
+  $("#btn-export").on("click", function () {
+    var result = $("#builder").queryBuilder("getSQL", false);
+
+    if (result.sql.length) {
+      $("#SQLout").text(result.sql);
     }
-  ],
+
+    result = $("#builder").queryBuilder("getRules");
+
+    if (!$.isEmptyObject(result)) {
+      $("#JSONout").text(JSON.stringify(result, null, 2));
+    }
+  });
+
+  $("#btn-get-sql").on("click", function () {
+    var result = $("#builder").queryBuilder("getSQL", false);
+
+    if (result.sql.length) {
+      $("#SQLout").text(result.sql);
+    }
+  });
+
+  $("#btn-get-json").on("click", function () {
+    var result = $("#builder").queryBuilder("getRules");
+
+    if (!$.isEmptyObject(result)) {
+      $("#JSONout").text(JSON.stringify(result, null, 2));
+    }
+  });
+
+  const objCourses = [
+    {
+      id: 1,
+      text: "MED 123",
+    },
+    {
+      id: 5,
+      text: "MED 456",
+    },
+    {
+      id: 4,
+      text: "POD 123",
+    },
+    {
+      id: 3,
+      text: "NUR 456",
+    },
+    {
+      id: 2,
+      text: "STN 666",
+    },
+  ];
+
+  // fix auto-focus not working as of jQuery >= 3.6
+  $(document).on("select2:open", (e) => {
+    const id = e.target.id;
+    const target = $(`[aria-controls=select2-${id}-results]`)[0];
+    console.log(id);
+    target.focus();
+  });
+
+  $(".course-select").select2({ data: objCourses });
 });
 
- let $select = $('.course-select').selectize({
-   maxItems: 1,
-   valueField: 'id',
-   labelField: 'name',
-   searchField: 'name',
-   options: objCourses,
-   //  showEmptyOptionInDropdown: true,
-   //  emptyOptionLabel: 'Select a Course...',
-   openOnFocus: false,
-   //maxOptions: 10
- });
-
-
-$("#btn-reset").on("click", function () {
-  $("#builder").queryBuilder("reset");
-});
-
-$("#btn-set-sql").on("click", function () {
-  $("#builder").queryBuilder("setRulesFromSQL", sql_import_export);
-});
-
-$('#btn-set-json').on('click', function() {
-  $('#builder').queryBuilder('setRules', rules_basic);
-});
-
-$("#btn-export").on("click", function () {
-  var result = $("#builder").queryBuilder("getSQL", false);
-
-  if (result.sql.length) {
-    $('#SQLout').text(result.sql);
-  }
-
-  result = $('#builder').queryBuilder('getRules');
-
-  if (!$.isEmptyObject(result)) {
-    $('#JSONout').text(JSON.stringify(result, null, 2));
-  }
-});
-
-$("#btn-get-sql").on("click", function () {
-  var result = $("#builder").queryBuilder("getSQL", false);
-
-  if (result.sql.length) {
-  $('#SQLout').text(result.sql);
-  }
-});
-
-$('#btn-get-json').on('click', function() {
-  var result = $('#builder').queryBuilder('getRules');
-  
-  if (!$.isEmptyObject(result)) {
-    $('#JSONout').text(JSON.stringify(result, null, 2));
-  }
-});
+//  let $select = $('.course-select').selectize({
+//    maxItems: 1,
+//    valueField: 'id',
+//    labelField: 'name',
+//    searchField: 'name',
+//    options: objCourses,
+//    //  showEmptyOptionInDropdown: true,
+//    //  emptyOptionLabel: 'Select a Course...',
+//    openOnFocus: false,
+//    //maxOptions: 10
+//  });
