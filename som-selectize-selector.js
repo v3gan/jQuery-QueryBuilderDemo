@@ -24,7 +24,6 @@ $.fn.queryBuilder.define("som-selectize-selector", function (options) {
   });
 
   this.on("beforeDeleteRule", function (e, rule) {
-    //rule.$el.find(".course-select").selectize.destroy();
     rule.$el.find(".course-select")[0].selectize.destroy();
   });
 });
