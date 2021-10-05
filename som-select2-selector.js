@@ -21,7 +21,7 @@ $.fn.queryBuilder.define("som-select2-selector", function (options) {
     target.focus();
   });
 
-  // init select picker
+  // init select picker after creating a rule input
   this.on("afterCreateRuleInput", function (e, rule) {
     let k = rule.$el
       .find(".course-select")

@@ -13,12 +13,13 @@ $.fn.queryBuilder.define("som-selectize-selector", function (options) {
     return false;
   }
 
-  // init select picker
+  // init select picker after creating a rule input
   this.on("afterCreateRuleInput", function (e, rule) {
     let k = rule.$el
       .find(".course-select")
       .removeClass("form-control")
       .selectize(options);
+    //k[0].selectize.focus();
     console.log(k);
   });
 

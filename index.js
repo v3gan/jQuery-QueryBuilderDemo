@@ -57,8 +57,11 @@ $(function () {
 
   let builder = $("#builder").queryBuilder({
     plugins: {
-      'som-select2-selector': {
-        data: objCourses,
+      'som-selectize-selector': {
+        options: objCourses,
+        valueField: 'id',
+        labelField: 'text',
+        placeholder: 'Select a Course'
       }
     },
     display_empty_filter: false,
