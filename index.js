@@ -29,13 +29,38 @@ let rules_basic = {
 
 $(function () {
 
+  const objCourses = [
+    {
+      id: 1,
+      text: "MED 123",
+    },
+    {
+      id: 5,
+      text: "MED 456",
+    },
+    {
+      id: 4,
+      text: "POD 123",
+    },
+    {
+      id: 3,
+      text: "NUR 456",
+    },
+    {
+      id: 2,
+      text: "STN 666",
+    },
+  ];
+
   $("#SQLin").text(sql_import_export);
   $("#JSONin").text(JSON.stringify(rules_basic, null, 2));
-  $("#builder").queryBuilder({
-    plugins: [
-      //"bt-tooltip-errors",
-      //"not-group"
-    ],
+
+  let builder = $("#builder").queryBuilder({
+    plugins: {
+      'som-select2-selector': {
+        data: objCourses,
+      }
+    },
     display_empty_filter: false,
     default_filter: "name",
     operators: ["equal"],
@@ -95,14 +120,14 @@ $(function () {
     {{? it.settings.display_errors }}
       <div class="error-container"><i class="{{= it.icons.error }}"></i></div>
     {{?}}
-    <div class="rule-filter-container"></div>
-    <div class="rule-operator-container"></div>
+    <!--<div class="rule-filter-container"></div>
+    <div class="rule-operator-container"></div>-->
     <div class="rule-value-container"></div>
   </div>
 </div>`,
       filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
       operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
-      ruleValueSelect: `<select id="{{= it.name }}" class="course-select" name="{{= it.name }}"></select>`,
+      ruleValueSelect: `<select id="{{= it.name }}" class="course-select form-control" name="{{= it.name }}" style="width:100%;"></select>`,
     },
     filters: [
       {
@@ -140,64 +165,5 @@ $(function () {
     }
   });
 
-  $("#btn-get-sql").on("click", function () {
-    var result = $("#builder").queryBuilder("getSQL", false);
-
-    if (result.sql.length) {
-      $("#SQLout").text(result.sql);
-    }
-  });
-
-  $("#btn-get-json").on("click", function () {
-    var result = $("#builder").queryBuilder("getRules");
-
-    if (!$.isEmptyObject(result)) {
-      $("#JSONout").text(JSON.stringify(result, null, 2));
-    }
-  });
-
-  const objCourses = [
-    {
-      id: 1,
-      text: "MED 123",
-    },
-    {
-      id: 5,
-      text: "MED 456",
-    },
-    {
-      id: 4,
-      text: "POD 123",
-    },
-    {
-      id: 3,
-      text: "NUR 456",
-    },
-    {
-      id: 2,
-      text: "STN 666",
-    },
-  ];
-
-  // fix auto-focus not working as of jQuery >= 3.6
-  $(document).on("select2:open", (e) => {
-    const id = e.target.id;
-    const target = $(`[aria-controls=select2-${id}-results]`)[0];
-    console.log(id);
-    target.focus();
-  });
-
-  $(".course-select").select2({ data: objCourses });
 });
 
-//  let $select = $('.course-select').selectize({
-//    maxItems: 1,
-//    valueField: 'id',
-//    labelField: 'name',
-//    searchField: 'name',
-//    options: objCourses,
-//    //  showEmptyOptionInDropdown: true,
-//    //  emptyOptionLabel: 'Select a Course...',
-//    openOnFocus: false,
-//    //maxOptions: 10
-//  });
