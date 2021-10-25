@@ -1,5 +1,5 @@
 let sql_import_export =
-  'name LIKE "%Johnny%" AND (category = 2 OR in_stock = 1)';
+  '(id = 1 AND id = 4) OR id = 3';
 
 let rules_basic = {
   condition: "AND",
@@ -28,7 +28,6 @@ let rules_basic = {
 };
 
 $(function () {
-
   const objCourses = [
     {
       id: 1,
@@ -55,27 +54,34 @@ $(function () {
   $("#SQLin").text(sql_import_export);
   $("#JSONin").text(JSON.stringify(rules_basic, null, 2));
 
-  let builder = $("#builder").queryBuilder({
-    plugins: {
-      'som-selectize-selector': {
-        options: objCourses,
-        valueField: 'id',
-        labelField: 'text',
-        placeholder: 'Select a Course'
+  $("#builder")
+    .on("afterUpdateRuleValue.queryBuilder", function (rule, pv) {
+      if (pv.value) {
+        //console.log($(this).queryBuilder("getSQL", false));
       }
-    },
-    display_empty_filter: false,
-    default_filter: "name",
-    operators: ["equal"],
-    icons: {
-      add_group: "bi bi-plus-square",
-      add_rule: "bi bi-plus-circle",
-      remove_group: "bi bi-dash-square",
-      remove_rule: "bi bi-dash-circle",
-      error: "bi bi-exclamation-triangle",
-    },
-    templates: {
-      group: `
+    })
+    .queryBuilder({
+      plugins: {
+        "som-selectize-selector": {
+          options: objCourses,
+          valueField: "id",
+          labelField: "text",
+          placeholder: "Select a Course",
+          somSelectSelector: ".course-select",
+        },
+      },
+      display_empty_filter: false,
+      default_filter: "id",
+      operators: ["equal"],
+      icons: {
+        add_group: "bi bi-plus-square",
+        add_rule: "bi bi-plus-circle",
+        remove_group: "bi bi-dash-square",
+        remove_rule: "bi bi-dash-circle",
+        error: "bi bi-exclamation-triangle",
+      },
+      templates: {
+        group: `
 <div id="{{= it.group_id }}" class="rules-group-container w-75">
   <div class="rules-group-header d-flex justify-content-between">
     <div class="btn-group order-1 group-actions">
@@ -108,7 +114,7 @@ $(function () {
     <div class=rules-list></div>
   </div>
 </div>`,
-      rule: `
+        rule: `
 <div id="{{= it.rule_id }}" class="rule-container d-flex justify-content-between"> 
   <div class="rule-action-container order-1">
     <div class="rule-header">
@@ -128,20 +134,21 @@ $(function () {
     <div class="rule-value-container"></div>
   </div>
 </div>`,
-      filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
-      operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
-      ruleValueSelect: `<select id="{{= it.name }}" class="course-select form-control" name="{{= it.name }}" style="width:100%;"></select>`,
-    },
-    filters: [
-      {
-        id: "name",
-        label: "Course",
-        type: "integer",
-        input: "select",
+        filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
+        operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
+        ruleValueSelect: `<select id="{{= it.name }}" class="course-select form-control" name="{{= it.name }}" style="width:100%;"></select>`,
       },
-    ],
-  });
-
+      filters: [
+        {
+          id: "id",
+          label: "Course",
+          type: "integer",
+          input: "select",
+        },
+      ],
+    });
+     //.queryBuilder("setRulesFromSQL", 'name = 1 AND name = 4');
+    
   $("#btn-reset").on("click", function () {
     $("#builder").queryBuilder("reset");
   });
@@ -167,6 +174,4 @@ $(function () {
       $("#JSONout").text(JSON.stringify(result, null, 2));
     }
   });
-
 });
-
