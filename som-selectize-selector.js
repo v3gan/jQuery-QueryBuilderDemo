@@ -16,14 +16,10 @@ $.fn.queryBuilder.define("som-selectize-selector", function (options) {
   // init select picker after creating a rule input
   this.on("afterCreateRuleInput", function (e, rule) {
     console.log('afterCreateRuleInput');
-    //console.log(options);
-    //console.log(rule);
-    //console.log(e);
     let k = rule.$el
       .find(options.somSelectSelector)
       .removeClass("form-control")
       .selectize(options);
-    //k[0].selectize.setValue('1', true);        
   });
 
   this.on("beforeDeleteRule", function (e, rule) {

@@ -7,6 +7,9 @@
     min-width: 10rem;
 }
 
+.query-builder .selectize-dropdown {
+    height: auto;
+  }
 /* .select2-container{
     width: 10rem !important;
 } */

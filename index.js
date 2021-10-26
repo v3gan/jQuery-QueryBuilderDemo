@@ -1,5 +1,5 @@
 let sql_import_export =
-  '(id = 1 AND id = 4) OR id = 3';
+  '(course = 1 AND course = 4) OR course = 3';
 
 let rules_basic = {
   condition: "AND",
@@ -30,29 +30,37 @@ let rules_basic = {
 $(function () {
   const objCourses = [
     {
-      id: 1,
+      course: 1,
       text: "MED 123",
     },
     {
-      id: 5,
+      course: 5,
       text: "MED 456",
     },
     {
-      id: 4,
+      course: 4,
       text: "POD 123",
     },
     {
-      id: 3,
+      course: 3,
       text: "NUR 456",
     },
     {
-      id: 2,
+      course: 2,
       text: "STN 666",
     },
   ];
 
   $("#SQLin").text(sql_import_export);
   $("#JSONin").text(JSON.stringify(rules_basic, null, 2));
+
+    // Fix for Selectize
+  $('#builder').on('afterCreateRuleInput.queryBuilder', function(e, rule) {
+    if (rule.filter.plugin == 'selectize') {
+      rule.$el.find('.rule-value-container').css('min-width', '200px')
+        .find('.selectize-control').removeClass('form-control');
+    }
+  });
 
   $("#builder")
     .on("afterUpdateRuleValue.queryBuilder", function (rule, pv) {
@@ -61,17 +69,8 @@ $(function () {
       }
     })
     .queryBuilder({
-      plugins: {
-        "som-selectize-selector": {
-          options: objCourses,
-          valueField: "id",
-          labelField: "text",
-          placeholder: "Select a Course",
-          somSelectSelector: ".course-select",
-        },
-      },
       display_empty_filter: false,
-      default_filter: "id",
+      default_filter: 'course',
       operators: ["equal"],
       icons: {
         add_group: "bi bi-plus-square",
@@ -80,6 +79,30 @@ $(function () {
         remove_rule: "bi bi-dash-circle",
         error: "bi bi-exclamation-triangle",
       },
+      filters: [
+        {
+          id: 'course',
+          type: 'string',
+          plugin: 'selectize',
+          plugin_config: {
+            valueField: "course",
+            labelField: "text",
+            sortField: 'text',
+            placeholder: "Select a Course",
+            maxItems: 1,
+            plugins: ['remove_button'],
+            options: objCourses,
+            onInitialize: function() {
+              let that = this;
+              console.log(that);
+              //objCourses.forEach(item => that.addOption(item));
+            }
+          },
+          valueSetter: function(rule, value) {
+            rule.$el.find('.rule-value-container input')[0].selectize.setValue(value);
+          }                                            
+        }
+      ],
       templates: {
         group: `
 <div id="{{= it.group_id }}" class="rules-group-container w-75">
@@ -136,16 +159,8 @@ $(function () {
 </div>`,
         filterSelect: `<input type='hidden' value='{{= it.filters[0].id }}' />`,
         operatorSelect: `<input type='hidden' value='{{= it.operators[0].type }}' />`,
-        ruleValueSelect: `<select id="{{= it.name }}" class="course-select form-control" name="{{= it.name }}" style="width:100%;"></select>`,
-      },
-      filters: [
-        {
-          id: "id",
-          label: "Course",
-          type: "integer",
-          input: "select",
-        },
-      ],
+        ruleValueSelect: `<select id="{{= it.name }}" class="course-select" name="{{= it.name }}" style="width:100%;"></select>`,
+      }
     });
      //.queryBuilder("setRulesFromSQL", 'name = 1 AND name = 4');
     

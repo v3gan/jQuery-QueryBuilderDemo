@@ -1,3 +1,11 @@
+// Fix for Selectize
+$('#builder-widgets').on('afterCreateRuleInput.queryBuilder', function(e, rule) {
+    if (rule.filter.plugin == 'selectize') {
+      rule.$el.find('.rule-value-container').css('min-width', '200px')
+        .find('.selectize-control').removeClass('form-control');
+    }
+  });
+  
 $('#builder-widgets').queryBuilder({
     plugins: ['bt-tooltip-errors'],
   
@@ -49,7 +57,7 @@ $('#builder-widgets').queryBuilder({
       plugin: 'selectize',
       plugin_config: {
         valueField: 'id',
-        labelField: 'name',
+        labelField: 'text',
         searchField: 'name',
         sortField: 'name',
         create: true,
