@@ -63,11 +63,9 @@ $(function () {
   });
 
   $("#builder")
-    .on("afterUpdateRuleValue.queryBuilder", function (rule, pv) {
-      if (pv.value) {
-        //console.log($(this).queryBuilder("getSQL", false));
-      }
-    })
+     //.on('afterInit.queryBuilder', function(){
+       //$('#builder').queryBuilder("setRulesFromSQL", sql_import_export);
+    // })    
     .queryBuilder({
       display_empty_filter: false,
       default_filter: 'course',
@@ -90,7 +88,7 @@ $(function () {
             sortField: 'text',
             placeholder: "Select a Course",
             maxItems: 1,
-            plugins: ['remove_button'],
+            //plugins: ['remove_button'],
             options: objCourses,
             onInitialize: function() {
               let that = this;
@@ -163,6 +161,8 @@ $(function () {
       }
     });
      //.queryBuilder("setRulesFromSQL", 'name = 1 AND name = 4');
+
+$('#builder').queryBuilder("setRulesFromSQL", sql_import_export);
     
   $("#btn-reset").on("click", function () {
     $("#builder").queryBuilder("reset");
